@@ -1,28 +1,18 @@
 import { Schema, model } from 'mongoose'
-import { StudentModel, TGuardian, TLocalGuardian, TStudent, TStudentMethods, TUserName } from './student.interface'
-import validator from 'validator';
+import { StudentModel, TGuardian, TLocalGuardian, TStudent, TUserName } from './student.interface'
+
+
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, "First name is required"],
     maxlength: [20, "First Name can not be allow more than 20 characters"],
-    validate: {
-      validator: function (value: string) {
-        const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
-        return firstNameStr === value;
-      },
-      message: "{VALUE} is not in capatilized format"
-    }
   },
   middleName: { type: String },
   lastName: {
     type: String,
     required: [true, "Last name is required"],
-    validate: {
-      validator: (value: string) => validator.isAlpha(value),
-      message: "{VALUE} is not valid"
-    }
   },
 })
 const guardianSchema = new Schema<TGuardian>({
@@ -71,10 +61,16 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
   },
 })
 
-const studentSchema = new Schema<TStudent, StudentModel, TStudentMethods>({
+const studentSchema = new Schema<TStudent, StudentModel>({
   id: {
     type: String,
-    required: true, unique: true
+    required: [true, "ID is required"], unique: true
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    required: [true, "User is required"],
+    unique: true,
+    ref: "User"
   },
   name: {
     type: userNameSchema,
@@ -119,16 +115,55 @@ const studentSchema = new Schema<TStudent, StudentModel, TStudentMethods>({
     type: localGuardianSchema,
     required: [true, "Local Guardian is required"]
   },
-  loacalImage: {
+  profileImage: {
     type: String,
   },
-  isActive: {
-    type: String,
-    enum: ['active', 'blocked'],
-    default: "active"
+  // isActive: {
+  //   type: String,
+  //   enum: {
+  //     values: ["active", "blocked"],
+  //     message: "{VALUE} is not a valid status"
+  //   }
+  // },
+  isDeleted: {
+    type: Boolean,
+    default: false
+  },
+},
+  {
+    toJSON: {
+      virtuals: true
+    }
+  })
 
-  },
+// virtual
+studentSchema.virtual("fullName").get(function () {
+  return (
+    `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`
+  )
 })
+
+
+
+
+// Query middleware
+
+studentSchema.pre("find", function (next) {
+  this.find({ isDeleted: { $ne: true } })
+  next();
+})
+studentSchema.pre("aggregate", function (next) {
+  this.pipeline().unshift({ $match: { isDelted: { $ne: true } } })
+  next();
+})
+studentSchema.pre("findOne", function (next) {
+  this.find({ isDeleted: { $ne: true } })
+  next();
+})
+
+// studentSchema.virtual("fullName", get(function () {
+//   return this.name.firstName + this.name.middleName + this.name.lastName
+// }))
 
 // const User = model<IUser>('User', userSchema);
 

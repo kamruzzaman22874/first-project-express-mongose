@@ -28,6 +28,7 @@ const LocalGuardianValidationSchema = z.object({
 // Define Zod schema for Student document
 export const StudentValidationSchema = z.object({
     id: z.string(),
+    password: z.string().max(20),
     name: UserNameValidationSchema,
     gender: z.enum(['male', 'female', 'others']),
     dateOfBirth: z.string(), // Make dateOfBirth required
@@ -41,6 +42,7 @@ export const StudentValidationSchema = z.object({
     localGuardian: LocalGuardianValidationSchema,
     loacalImage: z.string().optional(),
     isActive: z.enum(['active', 'blocked']),
+    isDeleted: z.boolean()
 });
 
 export default StudentValidationSchema;
