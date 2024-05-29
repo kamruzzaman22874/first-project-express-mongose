@@ -85,7 +85,7 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     },
   },
   dateOfBirth: {
-    type: String,
+    type: Date,
     required: true
   },
   email: { type: String, required: true, unique: true },
@@ -119,7 +119,7 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     type: String,
   },
   // isActive: {
-  //   type: String,
+  //   type: Boolean,
   //   enum: {
   //     values: ["active", "blocked"],
   //     message: "{VALUE} is not a valid status"

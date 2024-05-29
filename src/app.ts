@@ -15,7 +15,7 @@ app.use(cors())
 app.use('/api/v1', router)
 
 const test = (req: Request, res: Response) => {
-  res.send('Hello world')
+  res.send('Server is running')
 }
 
 app.get('/', test)
@@ -23,6 +23,6 @@ app.get('/', test)
 app.use(globalErrorHandler)
 app.use(notFound)
 
-console.log(process.cwd())
+// console.log(process.cwd())
 
 export default app
