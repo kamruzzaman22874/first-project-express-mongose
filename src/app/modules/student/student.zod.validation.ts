@@ -32,7 +32,7 @@ export const createStudentValidationSchema = z.object({
         student: z.object({
             name: userNameValidationSchema,
             gender: z.enum(['male', 'female', 'others']),
-            dateOfBirth: z.date().optional(), // Make dateOfBirth required
+            dateOfBirth: z.string().optional(), // Make dateOfBirth required
             email: z.string().email(),
             contactNo: z.string(),
             emergencyContactNo: z.string(),
@@ -41,6 +41,7 @@ export const createStudentValidationSchema = z.object({
             permanentAddress: z.string(),
             guardian: guardianValidationSchema,
             localGuardian: localGuardianValidationSchema,
+            admissionSemester: z.string(),
             loacalImage: z.string().optional(),
         })
     })
