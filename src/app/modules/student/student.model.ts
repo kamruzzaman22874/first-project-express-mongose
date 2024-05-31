@@ -144,8 +144,6 @@ studentSchema.virtual("fullName").get(function () {
 })
 
 
-
-
 // Query middleware
 
 studentSchema.pre("find", function (next) {

@@ -1,6 +1,5 @@
 
 import config from "../../config"
-import { TAcademicSemester } from "../academicSemester/academicSemester.interface"
 import { AcademicSemesterModel } from "../academicSemester/academicSemester.model"
 import { TStudent } from "../student/student.interface"
 import { Student } from "../student/student.model"
@@ -17,8 +16,6 @@ const createStudentIntoToDB = async (password: string, payload: TStudent) => {
     userData.role = "student";
 
     //year semesterCode 4 digit number
-
-
 
 
     // find academic semester info 
