@@ -4,8 +4,7 @@ import sendResponse from "../../utils/sendResponse";
 import { AcademicDepartmentService } from "./academicDepartment.service";
 
 const createAcademicDepartment = catchAsync(async (req, res) => {
-    const { department } = req.body;
-    const result = await AcademicDepartmentService.createAcademicDepartmentIntoDB(department)
+    const result = await AcademicDepartmentService.createAcademicDepartmentIntoDB(req.body)
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
@@ -14,8 +13,8 @@ const createAcademicDepartment = catchAsync(async (req, res) => {
     })
 })
 
-const getAllAcademicDepartment = catchAsync(async (req, res) => {
-    const result = await AcademicDepartmentService.getAllAcademicDepartmentFromDB();
+const getAllAcademicDepartments = catchAsync(async (req, res) => {
+    const result = await AcademicDepartmentService.getAllAcademicDepartmentsFromDB();
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
@@ -39,16 +38,16 @@ const updateAcademicDepartment = catchAsync(async (req, res) => {
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "All Academic Department is retrieved successfully",
+        message: "Academic Department is updated successfully",
         data: result
     })
 })
 
 
 
-export const AcademicDepartmentController = {
+export const AcademicDepartmentControllers = {
     createAcademicDepartment,
-    getAllAcademicDepartment,
+    getAllAcademicDepartments,
     getSingleAcademicDepartment,
     updateAcademicDepartment
 }

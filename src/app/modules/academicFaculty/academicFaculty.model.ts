@@ -9,6 +9,6 @@ const academicFacultySchema = new Schema<TAcademicFaculty>({
     },
 }, {
     timestamps: true,
-})
+});
 
-export const AcademiFacultyModel = model<TAcademicFaculty>("AcademicemiFaculty", academicFacultySchema)
+export const AcademiFacultyModel = model<TAcademicFaculty>("AcademicFaculty", academicFacultySchema)

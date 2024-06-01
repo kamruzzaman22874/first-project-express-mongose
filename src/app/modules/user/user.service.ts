@@ -1,5 +1,7 @@
 
+import httpStatus from "http-status"
 import config from "../../config"
+import { AppError } from "../../errors/AppError"
 import { AcademicSemesterModel } from "../academicSemester/academicSemester.model"
 import { TStudent } from "../student/student.interface"
 import { Student } from "../student/student.model"
@@ -16,12 +18,10 @@ const createStudentIntoToDB = async (password: string, payload: TStudent) => {
     userData.role = "student";
 
     //year semesterCode 4 digit number
-
-
     // find academic semester info 
     const admissionSemester = await AcademicSemesterModel.findById(payload.admissionSemester);
     if (!admissionSemester) {
-        throw new Error("Invalid admission semester")
+        throw new AppError(httpStatus.NOT_FOUND, "Invalid admission semester")
     }
 
     // set auto generated id
@@ -29,6 +29,7 @@ const createStudentIntoToDB = async (password: string, payload: TStudent) => {
 
     // create user 
     const newUser = await UserModel.create(userData)
+
 
     // create a user 
     if (Object.keys(newUser).length) {

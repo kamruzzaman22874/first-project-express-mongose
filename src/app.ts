@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from 'express'
 import cors from 'cors'
-import globalErrorHandler from './app/middlewares/middlewaresErrorhandler'
+import globalErrorHandler from './app/middlewares/globalErrorHandler'
 import notFound from './app/middlewares/notFound'
 import router from './app/routes'
 const app: Application = express()

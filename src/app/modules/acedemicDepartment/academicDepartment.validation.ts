@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-
-
 const createAcademicDepartmentsValidationSchema = z.object({
     body: z.object({
         name: z.string({

@@ -129,6 +129,10 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     type: Boolean,
     default: false
   },
+  academicDepartment: {
+    type: Schema.Types.ObjectId,
+    ref: "AcademicDepartment"
+  }
 },
   {
     toJSON: {
@@ -164,10 +168,8 @@ studentSchema.pre("findOne", function (next) {
 // }))
 
 // const User = model<IUser>('User', userSchema);
-
 studentSchema.methods.isUserExist = async function (id: string) {
   const existingUser = await Student.findOne({ id });
   return existingUser
 }
-
 export const Student = model<TStudent, StudentModel>('Student', studentSchema)
